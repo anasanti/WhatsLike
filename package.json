@@ -1,0 +1,19 @@
+{
+  "name": "whatslike",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.11.0",
+    "knex": "^0.14.0",
+    "mysql2": "^1.4.2",
+    "socket.io": "^2.0.4",
+    "socket.io-p2p-server": "^1.2.0",
+    "validate-ip-node": "^1.0.6"
+  }
+}
