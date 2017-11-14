@@ -1,5 +1,6 @@
 const knex = require('./database');
 const validacao = require('./validacao');
+const p2p = require('./p2p');
 
 module.exports = (nome, msg) => {
 
@@ -32,6 +33,12 @@ module.exports = (nome, msg) => {
                 id_grupo: registro.id_grupo,
                 data_hora_envio: knex.raw('NOW()'),
                 mensagem: msg, 
+            });
+
+            // Tenta enviar a menssagem para todos os clientes
+            p2p.envia(registro.id, 'mensagem', {
+                mensagem: msg,
+                id_grupo: registro.id_grupo,
             });
         });
 

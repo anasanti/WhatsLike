@@ -4,7 +4,7 @@ const connection = require('knex')({
     connection: {
       host: 'localhost',
       user: 'root',
-      password: 'root',
+      password: '',
       database: 'whatslike',
       supportBigNumbers: true,
       bigNumberStrings: true,
