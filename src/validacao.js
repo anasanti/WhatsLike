@@ -1,4 +1,5 @@
 const knex = require('./database');
+const moment = require('moment');
 
 
 module.exports.validanome = function validanome(nome) {
@@ -40,3 +41,7 @@ module.exports.validamensagem = function validamensagem(msg) {
     return true;
 }
 
+
+module.exports.mysqlData = () => {
+    return moment().format("YYYY-MM-DD HH:mm:ss");
+}

@@ -27,17 +27,20 @@ module.exports = (nome, msg) => {
         }
 
         registros.forEach(async (registro) => {
+            const data = validacao.mysqlData();
+
             await knex('mensagem').insert({
                 id_origem: 1,
                 id_destino: registro.id,
                 id_grupo: registro.id_grupo,
-                data_hora_envio: knex.raw('NOW()'),
+                data_hora_envio: data,
                 mensagem: msg, 
             });
 
             // Tenta enviar a menssagem para todos os clientes
             p2p.envia(registro.id, 'mensagem', {
                 mensagem: msg,
+                data_hora_envio: data,
                 id_grupo: registro.id_grupo,
             });
         });
