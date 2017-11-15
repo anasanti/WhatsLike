@@ -1,4 +1,4 @@
-/* DB Config */
+/* Configuração do Banco de dados */
 const connection = require('knex')({
     client: 'mysql2',
     connection: {
