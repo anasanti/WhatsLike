@@ -38,17 +38,17 @@ module.exports = async (nome) => {
         mensagens.forEach(async (mensagem) => {
             let msg = mensagem.id_destino > 1 ? 'eu' : nome; 
 
-            /* */
+            /*Demonstra a hora da criação do envio da mensagem */
             msg += ': ' + mensagem.mensagem + ' | ' + mensagem.data_hora_envio;
 
-            /*Demonstra a hora que a mensagem foi recebida */
+            /*Demonstra a se a mensagem foi recebida */
             if (mensagem.data_hora_recebimento) {
                 msg += ' | 1';
             } else {
                 msg += ' | 0';
             }
 
-            /*Demonstra a hora que a leitura foi feita*/
+            /*Demonstra se a mensagem foi lida*/
             if (mensagem.data_hora_leitura) {
                 msg += ' | 1';
             } else {
@@ -57,6 +57,8 @@ module.exports = async (nome) => {
 
             console.log(msg);
 
+            /*=== identico = true == comparação
+            Marca as mensagens do contato como lida */
             if (mensagem.data_hora_leitura === null && mensagem.id_destino === 1) {
                 await knex('mensagem').update({
                     data_hora_leitura: data,

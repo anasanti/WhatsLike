@@ -1,6 +1,13 @@
+/* Recebe a comunicação dos outros programas
+
+Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
+
+16/11/2017*/
+
 const knex = require('../database');
 const validacao = require('../validacao');
 
+/*Recebe mensagem e guarda na base salvanda a data de reccebimento */
 module.exports.comandos = (socket, pessoa) => {
     socket.on('mensagem', async (msg) => {
         const objeto = JSON.parse(msg);
@@ -16,10 +23,12 @@ module.exports.comandos = (socket, pessoa) => {
         });
     });
 
+    /*Sincroniza as mensagens solicitada pelo usuario */
     socket.on('sincroniza-mensagens', async (msg) => {
         const mensagens = JSON.parse(msg);
         const data = validacao.mysqlData();
 
+        
         for (let i = 0; i < mensagens.length; i++) {
             const mensagem = await knex.first('id', 'data_hora_recebimento', 'data_hora_leitura')
                 .from('mensagem')
@@ -40,6 +49,7 @@ module.exports.comandos = (socket, pessoa) => {
                     await knex('mensagem').update(dados).where('id', mensagem.id);
                 }
             } else {
+                
                 await knex('mensagem').insert({
                     id_origem: pessoa.id,
                     id_destino: 1,

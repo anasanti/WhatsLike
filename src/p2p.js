@@ -1,3 +1,9 @@
+/* Realiza a trocca de mensagens entre os programas
+
+Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
+
+16/11/2017*/
+
 const knex = require('./database');
 const cliente = require('./p2p/cliente');
 const servidor = require('./p2p/servidor');
@@ -29,7 +35,7 @@ module.exports.cliente = (ioc) => {
         listaServidores(ioc, conectados);
     }, 10000);
 
-    // executa quando carregar a primeira vez
+    /* executa quando carregar a primeira vez*/
     listaServidores(ioc, conectados);
 };
 
@@ -44,20 +50,20 @@ module.exports.envia = (id, evento, objeto) => {
 
 module.exports.servidor = (io) => {
     io.on('connection', async (socket) => {
-        // Pega endereço ip da pessoa
+        /* Pega endereço ip da pessoa*/
         const address = socket.handshake.address;
         if (typeof address === 'undefined') {
             console.log('ip não encontrado');
             return;
         }
 
-        // caso a pessoa não seja amiga não deixa fazer nada
+        /* caso a pessoa não seja amiga não deixa fazer nada*/
         const pessoa = await knex.first('id', 'nome').from('pessoa').where('ip', address);
         if (pessoa === null) {
             return;
         }
 
-        // configura comandos para a pessoa
+        /* configura comandos para a pessoa*/
         servidor.comandos(socket, pessoa);
     });
 };
