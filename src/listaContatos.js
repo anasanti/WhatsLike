@@ -1,3 +1,8 @@
+/* Monstra todos os usuarios já cadastrados no banco de dados
+
+Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
+
+16/11/2017*/
 const knex = require('./database');
 
 // listaContatos
@@ -11,6 +16,7 @@ module.exports = () => {
         ) ORDER BY nome ASC
     `;
 
+    /*Monstra os contatos do usuario cadastrados */
     knex.raw(sql).then(([ registros ]) => {
             
         if (registros && registros.length > 0) {

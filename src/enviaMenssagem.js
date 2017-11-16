@@ -1,3 +1,9 @@
+/* Metodo para o envio de mensagem 
+
+Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
+
+16/11/2017*/
+
 /*Conexão com banco de dados*/
 const knex = require('./database');
 /*Conexão com a pasta validação*/ 
@@ -13,7 +19,7 @@ module.exports = (nome, msg) => {
         return;
     }
 
-    /*Fazendo conexão com o bando de dados */
+    /*Query para buscar as pessoas para quem irá enviar as mensagens */
     const sql = `
         (
             SELECT pessoa.id, NULL as grupo_id FROM pessoa
@@ -33,6 +39,7 @@ module.exports = (nome, msg) => {
             return;
         }
 
+        /*Registra na base as mensagens */
         registros.forEach(async (registro) => {
             const data = validacao.mysqlData();
 

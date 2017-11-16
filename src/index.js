@@ -1,3 +1,9 @@
+/* Indice do programa, inicio do programa 
+
+Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
+
+16/11/2017*/
+/*Conectando a base de dados */
 require('./database');
 const readline = require('readline');
 
@@ -22,6 +28,7 @@ const listaGrupos = require('./listaGrupos');//g  --
 const enviaMenssagem = require('./enviaMenssagem');//s
 const listaMensagens = require('./listaMensagens');//l --
 
+/*Menu que irá aparecer para os usuarios quando iniciar o programa*/
 function help() {
   console.log('Comandos:');
   console.log('i [nome] [ip]', 'Insere um novo contato');
@@ -31,6 +38,7 @@ function help() {
   console.log('c [nome] [grupo]', 'Lista todos os contatos e grupos');
 }
 
+/*Criação de interface para o Menu*/
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
