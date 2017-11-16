@@ -23,7 +23,11 @@ const listaServidores = async (ioc) => {
 
             // salva conexão
             conectados[pessoas[i].id] = socket;
-            cliente.comandos(socket, pessoas[i]);
+            try {
+                cliente.comandos(socket, pessoas[i]);
+            } catch (ex) {
+                console.error(ex);
+            }
         }
     }
 }
@@ -51,20 +55,26 @@ module.exports.envia = (id, evento, objeto) => {
 module.exports.servidor = (io) => {
     io.on('connection', async (socket) => {
         /* Pega endereço ip da pessoa*/
-        const address = socket.handshake.address;
+        let address = socket.handshake.address;
         if (typeof address === 'undefined') {
             console.log('ip não encontrado');
             return;
         }
+        
+        address = address.replace('::ffff:', '').trim();
 
         /* caso a pessoa não seja amiga não deixa fazer nada*/
         const pessoa = await knex.first('id', 'nome').from('pessoa').where('ip', address);
-        if (pessoa === null) {
+        if (!pessoa) {
             return;
         }
 
         /* configura comandos para a pessoa*/
-        servidor.comandos(socket, pessoa);
+        try {
+            servidor.comandos(socket, pessoa);
+        } catch (ex) {
+            console.error(ex);
+        }
     });
 };
 
