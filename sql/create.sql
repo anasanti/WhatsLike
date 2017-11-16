@@ -1,8 +1,8 @@
-/* Criação do Banco de dados
+-- Criação do Banco de dados
 
-Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
+-- Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
 
-16/11/2017*/
+-- 16/11/2017
 
 CREATE DATABASE IF NOT EXISTS `whatslike`
   DEFAULT CHARACTER SET utf8
