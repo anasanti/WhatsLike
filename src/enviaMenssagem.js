@@ -15,6 +15,9 @@ const p2p = require('./p2p');
 module.exports = (nome, msg) => {
 
     /*fazendo a validação de mensagem e de nome que se encontra na pasta validação */
+    delete msg[0];
+    delete msg[1];
+    msg = msg.join(' ').trim();
     if(validacao.validanome(nome) === false || validacao.validamensagem(msg) === false){
         return;
     }

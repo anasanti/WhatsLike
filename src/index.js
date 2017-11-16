@@ -53,7 +53,7 @@ server.listen(3000, () => {
       case 'i': insereCadastro(args[1], args[2]); break;
       case 'g': listaGrupos(args[1], args[2]); break;
       case 'l': listaMensagens(args[1]); break;
-      case 's': enviaMenssagem(args[1], args[2]); break;
+      case 's': enviaMenssagem(args[1], args); break;
       case 'c': listaContatos(); break;
       case 'q': rl.close(); break;
       case 'h': help(); break;
