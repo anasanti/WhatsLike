@@ -9,12 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cli-table": "^0.3.1",
     "commander": "^2.11.0",
     "knex": "^0.14.0",
     "moment": "^2.19.2",
-    "mysql2": "^1.4.2",
     "socket.io": "^2.0.4",
     "socket.io-p2p-server": "^1.2.0",
-    "validate-ip-node": "^1.0.6"
+    "sqlite3": "^3.1.13"
   }
 }

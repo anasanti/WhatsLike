@@ -4,7 +4,7 @@ Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
 
 16/11/2017*/
 /*Conectando a base de dados */
-require('./database');
+const knex = require('./database');
 const readline = require('readline');
 
 /* Socket - Server */
@@ -18,25 +18,17 @@ const ioc = require('socket.io-client');
 
 /* p2p */
 const p2p = require('./p2p');
-p2p.cliente(ioc);
-p2p.servidor(io);
+
+/* setup */
+const setup = require('./setup');
 
 /* Comandos */
-const insereCadastro = require('./insereCadastro');//i
-const listaContatos = require('./listaContatos');//c
-const listaGrupos = require('./listaGrupos');//g  --
-const enviaMenssagem = require('./enviaMenssagem');//s
-const listaMensagens = require('./listaMensagens');//l --
-
-/*Menu que irá aparecer para os usuarios quando iniciar o programa*/
-function help() {
-  console.log('Comandos:');
-  console.log('i [nome] [ip]', 'Insere um novo contato');
-  console.log('g [nome] [lista_nome]', 'Insere nome na lista de grupos');
-  console.log('l [nome]', 'Lista mensagens');
-  console.log('s [nome] [msg]', 'Envia mensagem');
-  console.log('c [nome] [grupo]', 'Lista todos os contatos e grupos');
-}
+const insereCadastro = require('./comandos/insereCadastro');//i
+const listaContatos = require('./comandos/listaContatos');//c
+const listaGrupos = require('./comandos/listaGrupos');//g  --
+const enviaMenssagem = require('./comandos/enviaMenssagem');//s
+const listaMensagens = require('./comandos/listaMensagens');//l --
+const help = require('./comandos/help'); // h
 
 /*Criação de interface para o Menu*/
 const rl = readline.createInterface({
@@ -44,23 +36,34 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-server.listen(3000, () => {
-  rl.prompt();
+// Verifica a base e cria uma nova caso não exista
+setup(rl, () => {
 
-  rl.on('line', (line) => {
-    const args = line.split(' ');
-      switch (args[0]) {
-      case 'i': insereCadastro(args[1], args[2]); break;
-      case 'g': listaGrupos(args[1], args[2]); break;
-      case 'l': listaMensagens(args[1]); break;
-      case 's': enviaMenssagem(args[1], args); break;
-      case 'c': listaContatos(); break;
-      case 'q': rl.close(); break;
-      case 'h': help(); break;
-      default: help(); break;
-    }
+  // Cria serviços
+  p2p.cliente(ioc);
+  p2p.servidor(io);
+  server.listen(3000, async () => {
+    // Carrega nome
+    global.pessoa = await knex.first('nome').from('pessoa').where('id', 1);
+
+    // inicia interação com o console
     rl.prompt();
-  }).on('close', () => {
-    process.exit(0);
+    
+    rl.on('line', (line) => {
+      const args = line.split(' ');
+      switch (args[0]) {
+        case 'i': insereCadastro(args[1], args[2]); break;
+        case 'g': listaGrupos(args[1], args[2]); break;
+        case 'l': listaMensagens(args[1]); break;
+        case 's': enviaMenssagem(args[1], args); break;
+        case 'c': listaContatos(); break;
+        case 'q': rl.close(); break;
+        case 'h': help(); break;
+        default: console.error('Comando inválido');
+      }
+      rl.prompt();
+    }).on('close', () => {
+      process.exit(0);
+    });
   });
 });

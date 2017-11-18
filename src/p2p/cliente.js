@@ -5,19 +5,20 @@ Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
 16/11/2017*/
 
 const knex = require('../database');
+const sincroniza = require('../comandos/servicos/sicroniza');
+const mesagem = require('../comandos/servicos/mesagem');
+const sicronizaRecebe = require('../comandos/servicos/sicronizaRecebe');
 
 module.exports.comandos = (socket, pessoa) => {
-    
-    /* Pega mensagens */
-    socket.on('recupera-mensagens', async () => {
-        const mensagens = await knex.select('id', 'data_hora_envio', 'data_hora_recebimento', 'id_grupo', 'mensagem')
-            .from('mensagem')
-            .where('id_destino', pessoa.id)
-            .where('id_origem', 1);
+    socket.on('mensagem', async (msg) => {
+        mesagem(socket, pessoa, JSON.parse(msg));
+    });
 
-        /*Sincroniza as mensagens */
-        if (mensagens.length > 0) {
-            socket.emit('sincroniza-mensagens', JSON.stringify(mensagens));
-        }
+    socket.on('sincroniza', () => {
+        sincroniza(socket, pessoa);
+    });
+
+    socket.on('sicronizaRecebe', (msg) => {
+        sicronizaRecebe(socket, pessoa, JSON.parse(msg));
     });
 };

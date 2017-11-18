@@ -2,21 +2,18 @@
 
 Alunos: Ana Carolina Prates Santi e Igor Fraga de Andrade
 
-16/11/2017*/
+16/11/2017 */
+const path = require('path');
+
+// local da base de dados
+const database = path.join(__dirname, '..', 'db.sqlite');
+
 const connection = require('knex')({
-    client: 'mysql2',
-    connection: {
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'whatslike',
-      supportBigNumbers: true,
-      bigNumberStrings: true,
-      multipleStatements: true,
-      dateStrings: true
-    },
-    pool: { min: 1, max: 3 },
-  });
-  
-  module.exports = connection;
-  
+  client: 'sqlite3',
+  connection: {
+    filename: database,
+  },
+  useNullAsDefault: true,
+});
+
+module.exports = connection;
